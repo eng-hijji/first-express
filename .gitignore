@@ -1,0 +1,9 @@
+# Dependencies
+node_modules/
+
+# Editor directories and files
+.history/
+.vscode/
+.idea/
+*.log
+.DS_Store
