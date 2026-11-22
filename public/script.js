@@ -53,13 +53,35 @@ document.addEventListener('DOMContentLoaded', () => {
         return;
       }
 
-      // Simulate successful form submission
+      // Send data to the server via POST request
       submitBtnState(true);
-      setTimeout(() => {
-        showFormMessage('Thank you! Your message has been sent successfully.', 'success');
+      
+      fetch('/api/contact', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+          name: name,
+          email: email,
+          message: message
+        })
+      })
+      .then(response => {
+        if (!response.ok) {
+          throw new Error('Network response was not ok');
+        }
+        return response.json();
+      })
+      .then(data => {
+        showFormMessage(data.message, 'success');
         contactForm.reset();
         submitBtnState(false);
-      }, 1000);
+      })
+      .catch(error => {
+        showFormMessage('Failed to send message. Please try again.', 'error');
+        submitBtnState(false);
+      });
     });
   }
 

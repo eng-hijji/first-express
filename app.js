@@ -1,10 +1,14 @@
+
 const express = require("express");
 const path = require("path");
 const app = express();
+const { makeContact } = require("./recieveContact");
 function middle(req,res,next){
   console.log('you are authenticated you can view the site');
   next()
 }
+app.use(express.json());
+app.use('/api/contact',makeContact)
 app.use(middle)
 app.use(express.static(path.join(__dirname, "public")));
 // we use the app.use as it's a middle ware not an endpoint
